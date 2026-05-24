@@ -1,0 +1,505 @@
+/* Reset & WebView optimization styles */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Core Responsive Wrapper */
+.landing-container {
+  width: 100%;
+  min-width: 402px;
+  /* Figma base width constraint */
+  max-width: 800px;
+  /* PC view limits */
+  margin: 0 auto;
+  /* Centering on larger viewports */
+  background-color: #000000;
+  position: relative;
+  box-sizing: border-box;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+}
+
+/* Block Image Stacking & Mobile WebView Gap Prevention */
+.img-block {
+  position: relative;
+  width: 100%;
+  font-size: 0;
+  line-height: 0;
+  margin-top: -1px;
+  /* Sub-pixel overlapping to eliminate rendering gap line bugs */
+  box-sizing: border-box;
+}
+
+.video-container {
+  min-width: 405px;
+  width: 100%;
+  min-height: 226px;
+  background-color: white;
+  aspect-ratio: 405/226;
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* First block must not have negative margin-top to avoid clipping top edge */
+.img-block:first-child {
+  margin-top: 0;
+}
+
+.img-block img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 0;
+}
+
+/* Responsive Absolute Clickable Areas */
+.click-zone {
+  position: absolute;
+  display: block;
+  z-index: 10;
+  cursor: pointer;
+  box-sizing: border-box;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(255, 85, 0, 0.2);
+  /* Premium orange highlight feedback on tap */
+  transition: background-color 0.2s ease;
+}
+
+/* Visual tap feedback on desktop hover and focus */
+.click-zone:hover {
+  background-color: rgba(255, 85, 0, 0.05);
+}
+
+.click-zone:focus-visible {
+  outline: 3px solid #FF5500;
+  border-radius: 8px;
+}
+
+/* Image-Swap Overlay Animation */
+.swap-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.swap-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  z-index: 5;
+  pointer-events: none;
+  /* Let clicks pass through if links exist underneath */
+}
+
+/* Active state for dynamic swapping */
+.swap-overlay.is-active {
+  opacity: 1;
+}
+
+/* =============================================
+   Trail Section (Section 02 - Unbox the Trail)
+   ============================================= */
+.trail-section {
+  background-color: #000000;
+  padding: 8% 3.98% 18%;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.trail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 0 5%;
+}
+
+.trail-title {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  padding-bottom: 4%;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  align-self: end;
+}
+
+.trail-title-unboxing {
+  font-size: clamp(13px, 3.23vw, 26px);
+  letter-spacing: -0.04em;
+}
+
+.trail-title-road {
+  font-size: clamp(13px, 3.23vw, 26px);
+  letter-spacing: -0.04em;
+}
+
+.trail-divider {
+  width: 100%;
+  height: 1.3px;
+  background-color: rgba(255, 255, 255);
+  margin-bottom: 6%;
+}
+
+/* Slider */
+.trail-slider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.trail-slider-track {
+  display: grid;
+  grid-template-columns: 100%;
+}
+
+.trail-slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  position: relative;
+  width: 100%;
+  padding-bottom: 133.15%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 237 / 178 aspect ratio */
+}
+
+.trail-slide.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.trail-slide img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.4s ease;
+}
+
+/* =============================================
+   Speaker Section (Section 04 - Sliders)
+   ============================================= */
+.speaker-section {
+  padding: 13% 3.98% 13%;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.speaker-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5% 3.78%;
+  /* 14px gap at 402px width (after 16px padding) */
+}
+
+.speaker-grid-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5% 1.35%;
+  /* 5px gap at 402px width (after 16px padding) */
+  margin-top: 8%;
+}
+
+
+
+.speaker-col {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.8em;
+}
+
+.speaker-header {
+  flex-grow: 1;
+  /* Pushes everything below to bottom */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* Align texts to bottom */
+  margin-bottom: 4%;
+}
+
+.speaker-header-2 {
+  flex-grow: 1;
+  /* Pushes everything below to bottom */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* Align texts to bottom */
+  margin-bottom: 9%;
+}
+
+.speaker-title {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: clamp(12px, 2.985vw, 24px);
+  letter-spacing: -0.03em;
+  /* -3% */
+  line-height: 1.2;
+  margin: 0 0 -3px 0;
+}
+
+.speaker-title-2 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: clamp(11px, 2.736vw, 22px);
+  letter-spacing: -0.03em;
+  /* -3% */
+  line-height: 1.2;
+  margin: 0 0 -3px 0;
+}
+
+.speaker-meta {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.speaker-meta-2 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.speaker-name {
+  font-weight: 400;
+  font-size: clamp(9px, 2.238vw, 18px);
+}
+
+.speaker-org {
+  font-weight: 400;
+  font-size: clamp(7.5px, 1.865vw, 15px);
+  color: rgba(255, 255, 255, 0.7);
+  margin-left: -2px;
+}
+
+.speaker-meta-2 .speaker-name {
+  font-size: clamp(7.5px, 1.865vw, 15px);
+}
+
+.speaker-meta-2 .speaker-org {
+  font-size: clamp(6.5px, 1.616vw, 13px);
+}
+
+.speaker-divider {
+  width: 100%;
+  height: 1.3px;
+  background-color: #ffffff;
+  margin-bottom: 6%;
+}
+
+.speaker-slider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.behind-slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  position: relative;
+  width: 100%;
+  padding-bottom: 131.08%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 232.02 / 177 aspect ratio */
+}
+
+.behind-slide.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.behind-slide img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.4s ease;
+}
+
+/* =============================================
+   Celebration Section
+   ============================================= */
+.celebration-section {
+  padding: 0 3.98%;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.celebration-header {
+  margin-bottom: 4%;
+}
+
+.celebration-divider {
+  width: 8.46%;
+  height: 1.86px;
+  background-color: #ffffff;
+  margin: 0 auto 7%;
+}
+
+.celebration-title {
+  text-align: center;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: clamp(28px, 6.965vw, 56px);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.celebration-slider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.celebration-slider-track {
+  display: grid;
+  grid-template-columns: 100%;
+}
+
+.celebration-slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  position: relative;
+  width: 100%;
+  padding-bottom: 66.76%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 247 / 370 aspect ratio */
+}
+
+.celebration-slide.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.celebration-slide img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.4s ease;
+}
+
+.speaker-slider-track {
+  display: grid;
+  grid-template-columns: 100%;
+}
+
+.speaker-slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  position: relative;
+  width: 100%;
+  padding-bottom: 64.04%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 114 / 178 aspect ratio */
+}
+
+.speaker-slide.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.speaker-grid-3col .speaker-slide {
+  padding-bottom: 65%;
+  /* 78 / 120 aspect ratio */
+}
+
+
+
+.speaker-slide img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.4s ease;
+}
+
+.winner-container {
+  margin-top: 10%;
+  position: relative;
+  width: 100%;
+}
+
+.winner-container .winner-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.winner-container .winner-img:first-child {
+  position: relative;
+}
+
+.winner-container .winner-img.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mr-t-23 {
+  margin-top: 23%;
+}
+
+.img-align {
+  padding: 0 3.98%;
+}
+
+
+/* Media query to normalize widths on small viewports if required */
+@media (max-width: 402px) {
+  .landing-container {
+    width: 402px;
+    /* Force minimum responsive bounds */
+  }
+}
